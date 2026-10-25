@@ -4,7 +4,7 @@
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>AdminLTE v4 | Dashboard</title>
+    <title>@yield('title')</title>
 
     <!--begin::Theme Init (prevents flash of incorrect theme on load, #6043)-->
     <script>
@@ -123,6 +123,27 @@
   <!--end::Head-->
   <!--begin::Body-->
   <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+          @if ($errors->any())
+          <div class="alert alert-danger">
+              <ul>
+                  @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                  @endforeach
+              </ul>
+          </div>
+          @endif
+
+          @if (session()->has('error'))
+            <div class="alert alert-danger">
+              {{ session('error') }}
+            </div>
+          @endif
+
+          @if (session()->has('success'))
+            <div class="alert alert-success">
+              {{ session('success') }}
+            </div>
+          @endif
     <!--begin::App Wrapper-->
     <div class="app-wrapper">
       <!--begin::Header-->
@@ -479,14 +500,25 @@
               id="navigation"
             >
               <li class="nav-item menu-open">
-                <a href="#" class="nav-link active">
+                <a href="{{ route('admin.main.index') }}" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
-                    <i class="nav-arrow bi bi-chevron-right"></i>
+              
                   </p>
                 </a>
               </li>
+
+              <li class="nav-item menu-open">
+                <a href="{{ route('categories.index') }}" class="nav-link active">
+                  <i class="nav-icon bi bi-speedometer"></i>
+                  <p>
+                    Categories
+               
+                  </p>
+                </a>
+              </li>
+
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
@@ -495,6 +527,7 @@
       </aside>
       <!--end::Sidebar-->
       <!--begin::App Main-->
+      
       @yield('content')
       <!--end::App Main-->
       <!--begin::Footer-->
@@ -794,6 +827,7 @@
       sparkline3.render();
     </script>
     <!--end::Script-->
+    
   </body>
   <!--end::Body-->
 </html>
