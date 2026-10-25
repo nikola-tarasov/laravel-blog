@@ -56,7 +56,11 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $category = Category::query()->findOrFail($id);
+
+        return view('admin.category.edit', [
+            'category' => $category,
+        ]);
     }
 
     /**
@@ -64,7 +68,17 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $category = Category::query()->findOrFail($id);
+        $validated = $request->validate([
+            'title'=> ['required', 'max:255'],
+            'meta_desc'=> ['max:255'],
+        ]);
+
+        $category->update($validated);
+
+        return redirect()->route('categories.index')->with('sucсess', 'Category edited successfuly');
+
+
     }
 
     /**
